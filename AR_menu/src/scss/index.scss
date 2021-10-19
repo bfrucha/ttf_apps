@@ -1,0 +1,52 @@
+@import "normalize.scss";
+
+$text-color: #212121;
+$menu-item-outline: #366d8a;
+$menu-item-fill-selected: rgba(54, 109, 138, 0.5);
+
+html {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  color: $text-color;
+}
+
+.container {
+  width: 800px;
+  margin: 20px auto;
+}
+
+#svg-canvas {
+  background: #efefef;
+  width: 100%;
+  height: 700px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px #919191;
+}
+
+.menu-item {
+  rect {
+    stroke: $menu-item-outline;
+    fill: none;
+  }
+
+  text {
+    fill: $menu-item-outline;
+    text-anchor: middle;
+  }
+
+  &.selected {
+    rect {
+      fill: $menu-item-fill-selected;
+    }
+
+    text {
+      fill: white;
+    }
+  }
+}
+
+#pressure-bar {
+  fill: $menu-item-outline;
+  stroke: $menu-item-outline;
+}
