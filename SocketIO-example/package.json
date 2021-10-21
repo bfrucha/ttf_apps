@@ -1,0 +1,15 @@
+{
+  "name": "socketio-example",
+  "version": "1.0.0",
+  "description": "Simple example of a Socket-IO client/server communication",
+  "main": "server-node.js",
+  "scripts": {
+    "start": "node server-node.js & python3 python-client.py",
+    "start-node": "node server-node.js"
+  },
+  "author": "Bruno Fruchard",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^4.3.1"
+  }
+}
