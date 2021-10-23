@@ -1,0 +1,74 @@
+@import "normalize.scss";
+
+$default-black: #212121;
+$default-grey: #C2C2C2;
+
+html {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  color: $default-black;
+}
+
+.container {
+  width: 800px;
+  height: 700px;
+  margin: 20px auto;
+  position: relative;
+}
+
+#cursor-canvas-svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  z-index: 1;
+}
+
+#tool-cursor {
+  stroke: $default-grey;
+  stroke-width: 1;
+  fill: none;
+}
+
+#drawing-canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px #efefef solid;
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px $default-grey;
+  z-index: 0;
+}
+
+.tool-icons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 24px;
+  line-height: 24px;
+  margin: 10px;
+  color: rgba(33, 33, 33, 0.2);
+
+  .icon {
+    margin-left: 7px;
+  }
+
+  .selected {
+    color: $default-black;
+  }
+}
+
+.tool-options {
+  position: absolute;
+  top: 44px;
+  right: 0px;
+  margin-right: 10px;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: right;
+}
