@@ -1,7 +1,9 @@
 import './css/index.css'
-import Canvas from "./components/Canvas";
+import Canvas from "./components/Canvas"
 import React from 'react'
 import _ from 'lodash'
+import { io } from "socket.io-client"
+import TestSocketIO from "./components/TestSocketIO"
 
 export const Tool = {
     Brush: 0,
@@ -17,6 +19,29 @@ export default class App extends React.Component {
         toolOptions: defaultToolOptions,
         toolActivated: false,
         cursorPosition: { x: 0, y: 0 }
+    }
+
+    canvasWidth = 800
+    canvasHeight = 600
+
+    constructor(props) {
+        super(props)
+
+        this.socket = io("http://localhost:5555/")
+    }
+
+    componentDidMount() {
+        this.socket.on("react_brush_size", sizePerc => {
+            this.handleToolEvents({ options: { size: 2 + 28*sizePerc }})
+        })
+        this.socket.on("react_cursor_position", curPosPerc => {
+            // console.log(curPosPerc)
+            this.setState({ cursorPosition: { x: this.canvasWidth*curPosPerc.x, y: this.canvasHeight*curPosPerc.y }})
+        })
+        this.socket.on("react_draw", enable => {
+            // console.log("draw?")
+            this.setState({ toolActivated: enable})
+        })
     }
 
     handleToolEvents = (props) => {
@@ -47,8 +72,12 @@ export default class App extends React.Component {
         const { tool, toolOptions, toolActivated, cursorPosition } = this.state
         return (
             <div className="container">
-                <Canvas tool={tool} toolOptions={toolOptions[tool]} toolActivated={toolActivated} cursorPosition={cursorPosition}
+                <Canvas
+                    width={this.canvasWidth}
+                    height={this.canvasHeight}
+                    tool={tool} toolOptions={toolOptions[tool]} toolActivated={toolActivated} cursorPosition={cursorPosition}
                     updateToolProps={this.handleToolEvents}/>
+                    <TestSocketIO/>
             </div>
         )
     }

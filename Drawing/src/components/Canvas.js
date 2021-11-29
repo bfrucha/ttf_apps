@@ -25,7 +25,7 @@ const ToolOptions = React.memo((props) => {
 })
 
 
-export default class Canvas extends React.Component {
+export default class    Canvas extends React.Component {
     drawingCanvas = React.createRef()
 
     componentDidMount() {
@@ -79,8 +79,10 @@ export default class Canvas extends React.Component {
         const { cursorPosition, toolOptions } = this.props
         return (
             <React.Fragment>
-                <canvas ref={this.drawingCanvas} id={"drawing-canvas"}/>
+                <canvas ref={this.drawingCanvas} id={"drawing-canvas"}
+                    width={this.props.width} height={this.props.height}/>
                 <svg id={"cursor-canvas-svg"} tabIndex={0}
+                     width={this.props.width} height={this.props.height}
                      onMouseDown={() => this.props.updateToolProps({ toolActivated: true })}
                      onMouseMove={(me) => this.props.updateToolProps({ cursorPosition: {x: me.nativeEvent.offsetX, y: me.nativeEvent.offsetY} }) }
                      onMouseUp={() => this.props.updateToolProps({ toolActivated: false })}

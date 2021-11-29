@@ -18,8 +18,6 @@ html {
 }
 
 #cursor-canvas-svg {
-  width: 100%;
-  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -34,11 +32,6 @@ html {
 }
 
 #drawing-canvas {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
   border: 1px #efefef solid;
   border-radius: 4px;
   box-shadow: 2px 2px 4px $default-grey;
