@@ -31,12 +31,23 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
+        this.socket.on("react_brush_opacity", opacityPerc => {
+            console.log("opacity ", opacityPerc)
+            this.handleToolEvents({ options: { opacity: opacityPerc }})
+        })
         this.socket.on("react_brush_size", sizePerc => {
             this.handleToolEvents({ options: { size: 2 + 28*sizePerc }})
         })
-        this.socket.on("react_cursor_position", curPosPerc => {
+        // this.socket.on("react_cursor_position", curPosPerc => {
+        //     // console.log(curPosPerc)
+        //     this.setState({ cursorPosition: { x: this.canvasWidth*curPosPerc.x, y: this.canvasHeight*curPosPerc.y }})
+        // })
+        this.socket.on("react_cursor_move", cPosRel => {
             // console.log(curPosPerc)
-            this.setState({ cursorPosition: { x: this.canvasWidth*curPosPerc.x, y: this.canvasHeight*curPosPerc.y }})
+            const cPos = this.state.cursorPosition
+            const newPos = { x: cPos.x+cPosRel.x, y: cPos.y+cPosRel.y }
+            console.log(newPos)
+            this.setState({ cursorPosition: newPos })
         })
         this.socket.on("react_draw", enable => {
             // console.log("draw?")

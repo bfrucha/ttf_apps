@@ -18,7 +18,7 @@ const ToolOptions = React.memo((props) => {
     return (
         <div className={"tool-options"}>
             <p>Size: {props.size}px</p>
-            <p>Opacity: {props.opacity}%</p>
+            <p>Opacity: {props.opacity.toFixed(0)}%</p>
             { props.color && <p>Color: <FontAwesomeIcon icon={faCircle} style={{color: props.color}}/></p>}
         </div>
     )
