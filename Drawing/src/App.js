@@ -18,7 +18,7 @@ export default class App extends React.Component {
         tool: Tool.Brush,
         toolOptions: defaultToolOptions,
         toolActivated: false,
-        cursorPosition: { x: 0, y: 0 }
+        cursorPosition: { x: 100, y: 100 }
     }
 
     canvasWidth = 800
@@ -26,7 +26,7 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props)
-
+        
         this.socket = io("http://localhost:5555/")
     }
 
