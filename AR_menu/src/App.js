@@ -11,12 +11,16 @@ export default class App extends React.Component {
         menuIDSelected: null,
         itemIDFocused: null,
         itemSelected: null,
-        pressureApplied: 0
+        pressureApplied: 0,
+        hoveringDistance: 0
     }
 
     focusTimeoutID = null
     tmpMenuIDFocused = null
     tmpItemIDFocused = null
+
+    hoverThreshold = 65  // threshold beyond which user can validate a selection
+    hoverTimeoutID = null
 
     socket = null
 
@@ -36,7 +40,10 @@ export default class App extends React.Component {
                     if(this.tmpMenuIDFocused === null || this.tmpMenuIDFocused !== menuID) {
                         this.tmpMenuIDFocused = menuID
                         clearTimeout(this.focusTimeoutID)
-                        this.focusTimeoutID = setTimeout(() => { this.setState({ menuIDFocused: menuID }) }, 1000)
+                        this.focusTimeoutID = setTimeout(() => {
+                            this.tmpMenuIDFocused = null
+                            this.setState({ menuIDFocused: menuID })
+                        }, 1000)
                     }
                 }
                 else {  // a menu is selected, so we deal with the children
@@ -46,30 +53,47 @@ export default class App extends React.Component {
                     if(this.tmpItemIDFocused === null || this.tmpItemIDFocused !== itemID) {
                         this.tmpItemIDFocused = itemID
                         clearTimeout(this.focusTimeoutID)
-                        this.focusTimeoutID = setTimeout(() => { this.setState({ itemIDFocused: itemID }) }, 1000)
+                        this.focusTimeoutID = setTimeout(() => {
+                            this.tmpItemIDFocused = null
+                            this.setState({ itemIDFocused: itemID })
+                        }, 1000)
                     }
                 }
+            } else {
+                if(this.focusTimeoutID) clearTimeout(this.focusTimeoutID)
             }
 
             this.setState({ pressureApplied: pressurePerc })
         })
 
         this.socket.on("set_hovering", absHover => {
-            // TODO deal with hovering data
+            this.setState({ hoveringDistance: absHover })
+
+            // selects focused menu or item if hover distance remains above a given threshold for 1s
+            if(absHover > this.hoverThreshold) {  // just for testing, need to add delay
+                this.selectCurrentFocus()
+            }
         })
     }
 
-    keyUp = (ke) => {
-        if(ke.key === "v") {
-            const { menuIDFocused, menuIDSelected, itemIDFocused } = this.state
-            if(itemIDFocused !== null) {
-                const itemName = menuStructure[menuIDSelected].name + " > " +menuStructure[menuIDSelected].children[itemIDFocused]
-                this.setState({ menuIDFocused: null, menuIDSelected: null, itemIDFocused: null, itemSelected: itemName, pressureApplied: 0 })
-            }
-            else if(menuIDFocused !== null) {
-                this.setState({ menuIDFocused: null, menuIDSelected: menuIDFocused, pressureApplied: 0 })
-            }
+    selectCurrentFocus = () => {
+        const { menuIDFocused, menuIDSelected, itemIDFocused } = this.state
+        if(itemIDFocused !== null) {
+            console.log(menuIDFocused, menuIDSelected, itemIDFocused)
+            const itemName = menuStructure[menuIDSelected].name + " > " +menuStructure[menuIDSelected].children[itemIDFocused]
+            this.setState({ ...this.state, menuIDFocused: null, menuIDSelected: null, itemIDFocused: null, itemSelected: itemName, pressureApplied: 0 })
+            setTimeout(() => {
+                const { itemSelected } = this.state
+                if(itemName === itemSelected) this.setState({ ...this.state, itemSelected: null })
+            }, 3000)
         }
+        else if(menuIDFocused !== null) {
+            this.setState({ ...this.state, menuIDFocused: null, menuIDSelected: menuIDFocused, pressureApplied: 0 })
+        }
+    }
+
+    keyUp = (ke) => {
+        if(ke.key === "v") this.selectCurrentFocus()
     }
 
     render() {
@@ -79,8 +103,30 @@ export default class App extends React.Component {
                 <PressureMenu
                     currentPressure={this.state.pressureApplied/this.maxPressure}
                     {...this.state}/>
-                <div id="selection-results">
-                    Item selected: { this.state.itemSelected ?? "..." }
+                { this.state.itemSelected !== null && (
+                    <div id="selection-results">
+                        Item selected: { this.state.itemSelected ?? "..." }
+                    </div>
+                )}
+                <div id="input-feedback">
+                    <div className="pressure">
+                        Pressure
+                        <div className="slider-box">
+                            <div className="target" style={{ top: 0 }}>
+                                <span>100%</span>
+                            </div>
+                            <div className="slider" style={{height: this.state.pressureApplied}}/>
+                        </div>
+                    </div>
+                    <div className="hovering">
+                        Hovering
+                        <div className="slider-box">
+                            <div className="target" style={{ bottom: this.hoverThreshold+"%" }}>
+                                <span>{ this.hoverThreshold+"mm" }</span>
+                            </div>
+                            <div className="slider" style={{height: this.state.hoveringDistance}}/>
+                        </div>
+                    </div>
                 </div>
             </div>
         )
