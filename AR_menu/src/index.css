@@ -426,7 +426,7 @@ html {
   border-bottom: 10px solid transparent;
   border-top: 10px solid transparent;
 }
-#pressure-menu .roots .root .children .child:after {
+#pressure-menu .roots .root .children .child:not(:last-child):after {
   content: "";
   position: absolute;
   bottom: 0;

@@ -2,13 +2,13 @@ import './index.css'
 import PressureMenu from "./components/PressureMenu";
 import React from 'react'
 import { io } from "socket.io-client"
-import menuStructure from "./data/menu_structure.json"
-
+// import menuStructure from "./data/menu_structure.json"
+import menuStructure from "./data/concrete_menu.json"
 
 export default class App extends React.Component {
     state = {
         menuIDFocused: null, // first focus before can be selected by validating with hover interaction
-        menuIDSelected: null,
+        menuIDSelected: 5,
         itemIDFocused: null,
         itemSelected: null,
         pressureApplied: 0,
@@ -110,6 +110,7 @@ export default class App extends React.Component {
                 onKeyUp={this.keyUp}>
                 <PressureMenu
                     currentPressure={this.state.pressureApplied/this.maxPressure}
+                    menuStructure={menuStructure}
                     {...this.state}/>
                 { this.state.itemSelected !== null && (
                     <div id="selection-results">

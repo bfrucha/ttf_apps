@@ -112,14 +112,16 @@ $roots-height: 30px;
             }
           }
 
-          &:after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 5%;
-            width: 90%;
-            height: 1px;
-            background-color: change-color($default-color, $alpha: 0.3);
+          &:not(:last-child) {
+            &:after {
+              content: "";
+              position: absolute;
+              bottom: 0;
+              left: 5%;
+              width: 90%;
+              height: 1px;
+              background-color: change-color($default-color, $alpha: 0.3);
+            }
           }
         }
 
