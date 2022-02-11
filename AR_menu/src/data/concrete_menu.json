@@ -1,0 +1,38 @@
+[
+  {
+    "name": "File",
+    "children": [
+      "New", "Open", "Save", "Save as", "Open recent", "Settings", "Quit"
+    ]
+  },
+  {
+    "name": "Edit",
+    "children": [
+      "Undo", "Redo", "Copy", "Cut", "Paste", "Paste special", "Find", "Replace"
+    ]
+  },
+  {
+    "name": "Tools",
+    "children": [
+      "Select", "Hand", "Magnify", "Highlight", "Note", "Zoom in", "Zoom out"
+    ]
+  },
+  {
+    "name": "Media",
+    "children": [
+      "Start", "Pause", "Stop", "Previous", "Next", "Backward", "Forward", "Shuffle"
+    ]
+  },
+  {
+    "name": "Window",
+    "children": [
+      "Minimize", "Toggle toolbar", "Split view", "Show hierarchy"
+    ]
+  },
+  {
+    "name": "Help",
+    "children": [
+      "Getting started", "Find action", "Submit feedback", "About"
+    ]
+  }
+]
