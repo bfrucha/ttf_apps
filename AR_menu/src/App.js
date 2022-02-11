@@ -19,7 +19,7 @@ export default class App extends React.Component {
     tmpMenuIDFocused = null
     tmpItemIDFocused = null
 
-    hoverThreshold = 65  // threshold beyond which user can validate a selection
+    hoverThreshold = 50  // threshold beyond which user can validate a selection
     hoverTimeoutID = null
 
     socket = null
@@ -70,8 +70,16 @@ export default class App extends React.Component {
             this.setState({ hoveringDistance: absHover })
 
             // selects focused menu or item if hover distance remains above a given threshold for 1s
-            if(absHover > this.hoverThreshold) {  // just for testing, need to add delay
-                this.selectCurrentFocus()
+            if(absHover > this.hoverThreshold) {
+                if(!this.hoverTimeoutID) {
+                    this.hoverTimeoutID = setTimeout(() => {
+                        this.selectCurrentFocus()
+                        this.hoverTimeoutID = null
+                    }, 1000)
+                }
+            } else if(this.hoverTimeoutID) {
+                clearTimeout(this.hoverTimeoutID)
+                this.hoverTimeoutID = null
             }
         })
     }
@@ -124,7 +132,7 @@ export default class App extends React.Component {
                             <div className="target" style={{ bottom: this.hoverThreshold+"%" }}>
                                 <span>{ this.hoverThreshold+"mm" }</span>
                             </div>
-                            <div className="slider" style={{height: this.state.hoveringDistance}}/>
+                            <div className={"slider" + (this.hoverTimeoutID?" highlight":"")} style={{height: this.state.hoveringDistance}}/>
                         </div>
                     </div>
                 </div>

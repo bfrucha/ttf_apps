@@ -462,7 +462,7 @@ html {
   justify-content: space-around;
   width: 225px;
   position: absolute;
-  left: 200px;
+  left: 125px;
   top: 100px;
   padding: 10px;
 }
@@ -485,6 +485,9 @@ html {
   position: absolute;
   bottom: 0;
   left: 10px;
+}
+#input-feedback .slider-box .slider.highlight {
+  background-color: #6d49a4;
 }
 #input-feedback .slider-box .target {
   width: 100%;

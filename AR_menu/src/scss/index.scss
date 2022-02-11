@@ -12,6 +12,7 @@ html {
 }
 
 $default-color: #375d96;
+$highlight-color: #6d49a4;
 
 $menu-width: 125px;
 $roots-height: 30px;
@@ -153,7 +154,7 @@ $roots-height: 30px;
   justify-content: space-around;
   width: 225px;
   position: absolute;
-  left: 200px;
+  left: 125px;
   top: 100px;
   padding: 10px;
 
@@ -177,6 +178,10 @@ $roots-height: 30px;
       position: absolute;
       bottom: 0;
       left: 10px;
+
+      &.highlight {
+        background-color: $highlight-color;
+      }
     }
 
     .target {
